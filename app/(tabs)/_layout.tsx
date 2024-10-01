@@ -24,14 +24,32 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="search"
         options={{
-          title: 'Explore',
+          title: 'Search',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
           ),
         }}
       />
+      <Tabs.Screen
+        name="lists"
+        options={{
+          title: 'Lists',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+            ),
+          }}
+        />
+      <Tabs.Screen
+         name="account"
+         options={{
+           title: 'Account',
+           tabBarIcon: ({ color, focused }) => (
+             <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+             ),
+           }}
+         />
     </Tabs>
   );
 }
