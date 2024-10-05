@@ -1,7 +1,7 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
 
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
@@ -19,19 +19,37 @@ export default function TabLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+            <MaterialCommunityIcons name={focused ? 'home' : 'home-outline'} color={color} size={28} />
           ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="search"
         options={{
-          title: 'Explore',
+          title: 'Search',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+            <MaterialIcons name='search' color={color} size={28} />
           ),
         }}
       />
+      <Tabs.Screen
+        name="lists"
+        options={{
+          title: 'Lists',
+          tabBarIcon: ({ color, focused }) => (
+            <MaterialIcons name={focused ? 'bookmark' : 'bookmark-outline'} color={color} size={28} />
+            ),
+          }}
+        />
+      <Tabs.Screen
+         name="account"
+         options={{
+           title: 'Account',
+           tabBarIcon: ({ color, focused }) => (
+             <MaterialCommunityIcons name={focused ? 'account' : 'account-outline'} color={color} size={28} />
+             ),
+           }}
+         />
     </Tabs>
   );
 }
