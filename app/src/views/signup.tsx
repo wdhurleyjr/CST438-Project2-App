@@ -7,7 +7,7 @@ const Signup = () => {
       <Text style={styles.header}>Sign Up</Text>
 
       <TextInput
-        placeholder="Full Name"
+        placeholder="Name"
         style={styles.input}
         placeholderTextColor="#A9A9A9"
       />

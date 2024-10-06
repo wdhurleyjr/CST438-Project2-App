@@ -6,20 +6,26 @@ const Login = () => {
     <View style={styles.container}>
       <Text style={styles.header}>Login</Text>
 
-      <TextInput
-        placeholder="Email"
-        style={styles.input}
-        placeholderTextColor="#A9A9A9" // Gray placeholder
-      />
+            <TextInput
+              placeholder="Name"
+              style={styles.input}
+              placeholderTextColor="#A9A9A9"
+            />
 
-      <TextInput
-        placeholder="Password"
-        secureTextEntry
-        style={styles.input}
-        placeholderTextColor="#A9A9A9"
-      />
+            <TextInput
+              placeholder="Email"
+              style={styles.input}
+              placeholderTextColor="#A9A9A9"
+            />
 
-      <Button title="Login" onPress={() => {}} color="#6A5ACD" /> {/* Button color example */}
+            <TextInput
+              placeholder="Password"
+              secureTextEntry
+              style={styles.input}
+              placeholderTextColor="#A9A9A9"
+            />
+
+      <Button title="Login" onPress={() => {}} color="#6A5ACD" />
       <Text style={styles.signupText}>Don't have an account? Sign up</Text>
     </View>
   );
