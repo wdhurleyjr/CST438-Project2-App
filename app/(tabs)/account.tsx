@@ -1,94 +1,67 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, Image, Platform } from 'react-native';
-
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
+import { StyleSheet, Platform, TouchableOpacity } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import React from 'react';
+import Landing from '../src/views/landing';
+import Login from '../src/views/login';
+import Signup from '../src/views/signup';
 
-export default function TabTwoScreen() {
+const Stack = createStackNavigator();
+
+// Main component with navigation integrated
+export default function AccountTab() {
+  return (
+    <NavigationContainer independent={true}>
+      <Stack.Navigator initialRouteName="AccountOverview" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="AccountOverview" component={AccountOverview} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Signup" component={Signup} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+// Overview screen displaying only Login and Signup buttons
+function AccountOverview({ navigation }) {
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={<Ionicons size={310} name="code-slash" style={styles.headerImage} />}>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
+      headerImage={<Ionicons size={310} name="code-slash" style={styles.headerImage} />}
+    >
+      {/* Center the Bestsellers title */}
+      <ThemedView style={styles.centeredTitleContainer}>
+        <ThemedText type="title" style={styles.centeredTitle}>
+          Bestsellers
+        </ThemedText>
       </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user's current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText> library
-          to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
+
+      {/* Only include buttons for navigation */}
+      <ThemedView style={styles.buttonContainer}>
+        {/* Login Button */}
+        <TouchableOpacity
+          style={[styles.button, styles.loginButton]}
+          onPress={() => navigation.navigate('Login')}
+        >
+          <ThemedText style={styles.buttonText}>Login</ThemedText>
+        </TouchableOpacity>
+
+        {/* Sign Up Button */}
+        <TouchableOpacity
+          style={[styles.button, styles.signupButton]}
+          onPress={() => navigation.navigate('Signup')}
+        >
+          <ThemedText style={styles.buttonText}>Sign up</ThemedText>
+        </TouchableOpacity>
+      </ThemedView>
     </ParallaxScrollView>
   );
 }
 
+// Styles for the component
 const styles = StyleSheet.create({
   headerImage: {
     color: '#808080',
@@ -96,8 +69,43 @@ const styles = StyleSheet.create({
     left: -35,
     position: 'absolute',
   },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
+  centeredTitleContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 40, // Adjust the margin as necessary to control vertical position
+    paddingHorizontal: 20,
+  },
+  centeredTitle: {
+    fontSize: 35, // Larger font size for the title
+    fontWeight: 'bold',
+    color: '#000', // Black text color for the title
+    lineHeight: 40,
+  },
+  buttonContainer: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 50, // Adjust to control distance between title and buttons
+    paddingHorizontal: 20,
+  },
+  button: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    borderRadius: 30,
+    marginBottom: 20, // Adjust spacing between buttons
+    width: '70%',
+  },
+  loginButton: {
+    backgroundColor: '#D3D3D3', // Gray color for Login button
+  },
+  signupButton: {
+    backgroundColor: '#6A5ACD', // Purple color for Sign Up button
+  },
+  buttonText: {
+    color: '#FFF',
+    fontSize: 18,
+    fontWeight: '600',
   },
 });
