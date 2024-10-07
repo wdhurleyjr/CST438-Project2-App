@@ -6,13 +6,17 @@ import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: '#222222',
         headerShown: false,
+        tabBarStyle:{
+          paddingTop: 5,
+          paddingBottom: 5,
+          height: 55,
+        }
       }}>
       <Tabs.Screen
         name="index"

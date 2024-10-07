@@ -1,12 +1,10 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, Platform, TouchableOpacity } from 'react-native';
+import { StyleSheet, Platform, TouchableOpacity, View, Text } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 import React from 'react';
-import Landing from '../src/views/landing';
+//DISCUSS HOME SCREEN HANDLING LATER
+//import Landing from '../src/views/landing';
 import Login from '../src/views/login';
 import Signup from '../src/views/signup';
 
@@ -18,8 +16,8 @@ export default function AccountTab() {
     <NavigationContainer independent={true}>
       <Stack.Navigator initialRouteName="AccountOverview" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="AccountOverview" component={AccountOverview} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Signup" component={Signup} />
+        <Stack.Screen name="Login" component={Login} options={{ headerShown: true }} />
+        <Stack.Screen name="Signup" component={Signup} options={{ headerShown: true, title: 'Sign Up' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -28,25 +26,22 @@ export default function AccountTab() {
 // Overview screen displaying only Login and Signup buttons
 function AccountOverview({ navigation }) {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={<Ionicons size={310} name="code-slash" style={styles.headerImage} />}
-    >
+    <View style={styles.container}>
       {/* Center the Bestsellers title */}
-      <ThemedView style={styles.centeredTitleContainer}>
-        <ThemedText type="title" style={styles.centeredTitle}>
+      <View style={styles.centeredTitleContainer}>
+        <Text style={styles.centeredTitle}>
           Bestsellers
-        </ThemedText>
-      </ThemedView>
+        </Text>
+      </View>
 
       {/* Only include buttons for navigation */}
-      <ThemedView style={styles.buttonContainer}>
+      <View style={styles.buttonContainer}>
         {/* Login Button */}
         <TouchableOpacity
           style={[styles.button, styles.loginButton]}
           onPress={() => navigation.navigate('Login')}
         >
-          <ThemedText style={styles.buttonText}>Login</ThemedText>
+          <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
 
         {/* Sign Up Button */}
@@ -54,15 +49,21 @@ function AccountOverview({ navigation }) {
           style={[styles.button, styles.signupButton]}
           onPress={() => navigation.navigate('Signup')}
         >
-          <ThemedText style={styles.buttonText}>Sign up</ThemedText>
+          <Text style={styles.buttonText}>Sign up</Text>
         </TouchableOpacity>
-      </ThemedView>
-    </ParallaxScrollView>
+      </View>
+    </View>
   );
 }
 
 // Styles for the component
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f0f0f0',
+    padding: 25,
+    marginTop: 25,
+  },
   headerImage: {
     color: '#808080',
     bottom: -90,
