@@ -30,22 +30,18 @@ const Admin = () => {
     <View style={styles.container}>
       <Text style={styles.header}>Admin Controls</Text>
 
-      {/* Create User Button */}
       <TouchableOpacity style={[styles.button, styles.createButton]} onPress={handleCreateUser}>
         <Text style={styles.buttonText}>Create User</Text>
       </TouchableOpacity>
 
-      {/* View Users Button */}
       <TouchableOpacity style={[styles.button, styles.viewButton]} onPress={handleViewUsers}>
         <Text style={styles.buttonText}>View Users</Text>
       </TouchableOpacity>
 
-      {/* Update User Button */}
       <TouchableOpacity style={[styles.button, styles.updateButton]} onPress={handleUpdateUser}>
         <Text style={styles.buttonText}>Update User</Text>
       </TouchableOpacity>
 
-      {/* Delete User Button */}
       <TouchableOpacity style={[styles.button, styles.deleteButton]} onPress={handleDeleteUser}>
         <Text style={styles.buttonText}>Delete User</Text>
       </TouchableOpacity>

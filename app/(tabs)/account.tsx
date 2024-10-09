@@ -7,6 +7,7 @@ import React from 'react';
 //import Landing from '../src/views/landing';
 import Login from '../src/views/login';
 import Signup from '../src/views/signup';
+import Admin from '../src/views/admin';
 
 const Stack = createStackNavigator();
 
@@ -18,6 +19,7 @@ export default function AccountTab() {
         <Stack.Screen name="AccountOverview" component={AccountOverview} />
         <Stack.Screen name="Login" component={Login} options={{ headerShown: true }} />
         <Stack.Screen name="Signup" component={Signup} options={{ headerShown: true, title: 'Sign Up' }} />
+        <Stack.Screen name="Admin" component={Admin} />
       </Stack.Navigator>
     </NavigationContainer>
   );
