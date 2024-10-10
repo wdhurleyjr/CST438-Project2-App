@@ -1,36 +1,81 @@
-import React from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import Admin from '../src/views/admin';
 
 const Login = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false); // State to track if entered info matches admin credentials
+  const navigation = useNavigation();
+
+  // Placeholder admin credentials for testing purposes
+  const adminName = 'admin';
+  const adminEmail = 'admin@example.com';
+  const adminPassword = 'admin123';
+
+  const handleLogin = () => {
+    // Check if the entered credentials match the placeholder admin credentials
+    if (name === adminName && email === adminEmail && password === adminPassword) {
+      setIsAdmin(true); // Enable the admin button
+    } else {
+      setIsAdmin(false); // Disable the admin button if credentials don't match
+    }
+
+    console.log('Login attempted with:', { name, email, password });
+    // Navigate to userAcc or other screen based on successful login if needed
+  };
+
+  const handleAdminNavigation = () => {
+    navigation.navigate('Admin'); // Navigate to the Admin screen
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Login</Text>
 
-            <TextInput
-              placeholder="Name"
-              style={styles.input}
-              placeholderTextColor="#A9A9A9"
-            />
+      <TextInput
+        placeholder="Name"
+        style={styles.input}
+        placeholderTextColor="#A9A9A9"
+        value={name}
+        onChangeText={setName}
+      />
 
-            <TextInput
-              placeholder="Email"
-              style={styles.input}
-              placeholderTextColor="#A9A9A9"
-            />
+      <TextInput
+        placeholder="Email"
+        style={styles.input}
+        placeholderTextColor="#A9A9A9"
+        value={email}
+        onChangeText={setEmail}
+      />
 
-            <TextInput
-              placeholder="Password"
-              secureTextEntry
-              style={styles.input}
-              placeholderTextColor="#A9A9A9"
-            />
+      <TextInput
+        placeholder="Password"
+        secureTextEntry
+        style={styles.input}
+        placeholderTextColor="#A9A9A9"
+        value={password}
+        onChangeText={setPassword}
+      />
 
-      <Button title="Login" onPress={() => {}} color="#6A5ACD" />
+
+      <Button title="Login" onPress={handleLogin} color="#6A5ACD" />
+
       <Text style={styles.signupText}>Don't have an account? Sign up</Text>
+
+      {isAdmin && (
+        <TouchableOpacity style={styles.adminButton} onPress={handleAdminNavigation}>
+          <Ionicons name="star" size={40} color="#FFD700" />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
 
+// Styles for the Login screen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -57,6 +102,19 @@ const styles = StyleSheet.create({
   signupText: {
     marginTop: 20,
     color: '#6A5ACD', // Link-like text color
+  },
+  adminButton: {
+    position: 'absolute',
+    bottom: 30, // Positioning the button at the bottom right corner
+    right: 30,
+    backgroundColor: '#6A5ACD', // Matching background color of Login screen
+    borderRadius: 50,
+    padding: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5, // Android shadow
   },
 });
 
