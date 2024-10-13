@@ -4,7 +4,7 @@ import React from 'react';
 export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollView}>
+      <ScrollView>
       <View style={styles.centeredTitleContainer}>
         <Text style={styles.logoTitle}>
           Bestsellers
@@ -20,21 +20,21 @@ export default function HomeScreen() {
             <Text style={styles.cardTitle}>Book title</Text>
             <Text style={styles.cardText}>Author | New this week</Text>
           </View>
-          <Image style={styles.cardThumb}></Image>
+          <Image style={styles.cardThumb} source={require('../../assets/images/partial-react-logo.png')} />
         </View>
         <View style={styles.cardBook}>
           <View style={styles.cardBody}>
             <Text style={styles.cardTitle}>Book title</Text>
             <Text style={styles.cardText}>Author | New this week</Text>
           </View>
-          <Image style={styles.cardThumb}></Image>
+          <Image style={styles.cardThumb} source={require('../../assets/images/partial-react-logo.png')} />
         </View>
         <View style={styles.cardBook}>
           <View style={styles.cardBody}>
             <Text style={styles.cardTitle}>Book title</Text>
             <Text style={styles.cardText}>Author | New this week</Text>
           </View>
-          <Image style={styles.cardThumb}></Image>
+          <Image style={styles.cardThumb} source={require('../../assets/images/partial-react-logo.png')} />
         </View>
       </View>
       <View style={styles.listContainer}>
@@ -44,21 +44,21 @@ export default function HomeScreen() {
             <Text style={styles.cardTitle}>Book title</Text>
             <Text style={styles.cardText}>Author | New this week</Text>
           </View>
-          <Image style={styles.cardThumb}></Image>
+          <Image style={styles.cardThumb} source={require('../../assets/images/partial-react-logo.png')} />
         </View>
         <View style={styles.cardBook}>
           <View style={styles.cardBody}>
             <Text style={styles.cardTitle}>Book title</Text>
             <Text style={styles.cardText}>Author | New this week</Text>
           </View>
-          <Image style={styles.cardThumb}></Image>
+          <Image style={styles.cardThumb} source={require('../../assets/images/partial-react-logo.png')} />
         </View>
         <View style={styles.cardBook}>
           <View style={styles.cardBody}>
             <Text style={styles.cardTitle}>Book title</Text>
             <Text style={styles.cardText}>Author | New this week</Text>
           </View>
-          <Image style={styles.cardThumb}></Image>
+          <Image style={styles.cardThumb} source={require('../../assets/images/partial-react-logo.png')} />
         </View>
       </View>
       <View style={styles.listContainer}>
@@ -68,21 +68,21 @@ export default function HomeScreen() {
             <Text style={styles.cardTitle}>Book title</Text>
             <Text style={styles.cardText}>Author | New this week</Text>
           </View>
-          <Image style={styles.cardThumb}></Image>
+          <Image style={styles.cardThumb} source={require('../../assets/images/partial-react-logo.png')} />
         </View>
         <View style={styles.cardBook}>
           <View style={styles.cardBody}>
             <Text style={styles.cardTitle}>Book title</Text>
             <Text style={styles.cardText}>Author | New this week</Text>
           </View>
-          <Image style={styles.cardThumb}></Image>
+          <Image style={styles.cardThumb} source={require('../../assets/images/partial-react-logo.png')} />
         </View>
         <View style={styles.cardBook}>
           <View style={styles.cardBody}>
             <Text style={styles.cardTitle}>Book title</Text>
             <Text style={styles.cardText}>Author | New this week</Text>
           </View>
-          <Image style={styles.cardThumb}></Image>
+          <Image style={styles.cardThumb} source={require('../../assets/images/partial-react-logo.png')} />
         </View>
       </View>
       <View style={styles.scrollEnd}></View>
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     lineHeight: 1.44 * 16,
   },
   cardThumb: {
-    backgroundColor: '#aaa',
+    backgroundColor: '#222',
     height: '100%',
     width: 90,
     borderTopRightRadius: 8.5,
