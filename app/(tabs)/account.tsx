@@ -26,7 +26,7 @@ export default function AccountTab() {
 }
 
 // Overview screen displaying only Login and Signup buttons
-function AccountOverview({ navigation }) {
+function AccountOverview({ navigation }: any) {
   return (
     <View style={styles.container}>
       {/* Center the Bestsellers title */}
