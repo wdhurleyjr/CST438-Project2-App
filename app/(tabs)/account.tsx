@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f0',
     padding: 25,
     marginTop: 25,
+    justifyContent: 'center',
   },
   headerImage: {
     color: '#808080',
@@ -79,11 +80,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   logoTitle: {
-    fontSize: 35,
+    fontSize: 50,
     fontWeight: 'bold',
     fontFamily: 'Judson-bold', // NEED TO FIX !!!
     color: '#000',
-    lineHeight: 40,
+    lineHeight: 50,
   },
   buttonContainer: {
     flexDirection: 'column',
@@ -99,17 +100,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     borderRadius: 30,
     marginBottom: 20,
-    width: '70%',
+    width: 'auto',
   },
   loginButton: {
     backgroundColor: '#B3B3B3',
   },
   signupButton: {
-    backgroundColor: '#6A5ACD',
+    backgroundColor: '#131313',
   },
   buttonText: {
     color: '#FFF',
     fontSize: 18,
-    fontWeight: '600',
   },
 });
