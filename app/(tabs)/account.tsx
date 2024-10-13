@@ -38,20 +38,20 @@ function AccountOverview({ navigation }: any) {
 
       {/* Only include buttons for navigation */}
       <View style={styles.buttonContainer}>
-        {/* Login Button */}
-        <TouchableOpacity
-          style={[styles.button, styles.loginButton]}
-          onPress={() => navigation.navigate('Login')}
-        >
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-
         {/* Sign Up Button */}
         <TouchableOpacity
           style={[styles.button, styles.signupButton]}
           onPress={() => navigation.navigate('Signup')}
         >
           <Text style={styles.buttonText}>Sign up</Text>
+        </TouchableOpacity>
+
+        {/* Login Button */}
+        <TouchableOpacity
+          style={[styles.button, styles.loginButton]}
+          onPress={() => navigation.navigate('Login')}
+        >
+          <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
       </View>
     </View>
