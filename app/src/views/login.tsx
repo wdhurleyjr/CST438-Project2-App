@@ -6,25 +6,23 @@ import Admin from '../src/views/admin';
 
 const Login = () => {
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isAdmin, setIsAdmin] = useState(false); // State to track if entered info matches admin credentials
   const navigation = useNavigation();
 
   // Placeholder admin credentials for testing purposes
   const adminName = 'admin';
-  const adminEmail = 'admin@example.com';
   const adminPassword = 'admin123';
 
   const handleLogin = () => {
     // Check if the entered credentials match the placeholder admin credentials
-    if (name === adminName && email === adminEmail && password === adminPassword) {
+    if (name === adminName && password === adminPassword) {
       setIsAdmin(true); // Enable the admin button
     } else {
       setIsAdmin(false); // Disable the admin button if credentials don't match
     }
 
-    console.log('Login attempted with:', { name, email, password });
+    console.log('Login attempted with:', { name, password });
     // Navigate to userAcc or other screen based on successful login if needed
   };
 
@@ -37,19 +35,11 @@ const Login = () => {
       <Text style={styles.header}>Login</Text>
 
       <TextInput
-        placeholder="Name"
+        placeholder="Username"
         style={styles.input}
         placeholderTextColor="#A9A9A9"
         value={name}
         onChangeText={setName}
-      />
-
-      <TextInput
-        placeholder="Email"
-        style={styles.input}
-        placeholderTextColor="#A9A9A9"
-        value={email}
-        onChangeText={setEmail}
       />
 
       <TextInput
