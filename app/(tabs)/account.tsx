@@ -31,7 +31,7 @@ function AccountOverview({ navigation }: any) {
     <View style={styles.container}>
       {/* Center the Bestsellers title */}
       <View style={styles.centeredTitleContainer}>
-        <Text style={styles.centeredTitle}>
+        <Text style={styles.logoTitle}>
           Bestsellers
         </Text>
       </View>
@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f0',
     padding: 25,
     marginTop: 25,
+    justifyContent: 'center',
   },
   headerImage: {
     color: '#808080',
@@ -75,20 +76,21 @@ const styles = StyleSheet.create({
   centeredTitleContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 40, // Adjust the margin as necessary to control vertical position
+    marginTop: 40,
     paddingHorizontal: 20,
   },
-  centeredTitle: {
-    fontSize: 35, // Larger font size for the title
+  logoTitle: {
+    fontSize: 50,
     fontWeight: 'bold',
-    color: '#000', // Black text color for the title
-    lineHeight: 40,
+    fontFamily: 'Judson-bold', // NEED TO FIX !!!
+    color: '#000',
+    lineHeight: 50,
   },
   buttonContainer: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 50, // Adjust to control distance between title and buttons
+    marginTop: 50,
     paddingHorizontal: 20,
   },
   button: {
@@ -97,18 +99,17 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 30,
-    marginBottom: 20, // Adjust spacing between buttons
-    width: '70%',
+    marginBottom: 20,
+    width: 'auto',
   },
   loginButton: {
-    backgroundColor: '#D3D3D3', // Gray color for Login button
+    backgroundColor: '#B3B3B3',
   },
   signupButton: {
-    backgroundColor: '#6A5ACD', // Purple color for Sign Up button
+    backgroundColor: '#131313',
   },
   buttonText: {
     color: '#FFF',
     fontSize: 18,
-    fontWeight: '600',
   },
 });
