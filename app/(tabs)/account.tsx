@@ -1,5 +1,5 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, Platform, TouchableOpacity, View, Text } from 'react-native';
+import { StyleSheet, Platform, TouchableOpacity, View, Text, StatusBar } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f0f0f0',
     padding: 25,
-    marginTop: 25,
+    marginTop: StatusBar.currentHeight,
     justifyContent: 'center',
   },
   headerImage: {

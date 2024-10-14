@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Platform, SafeAreaView, ScrollView, View, Text } from 'react-native';
+import { Image, StyleSheet, Platform, SafeAreaView, ScrollView, View, Text, StatusBar } from 'react-native';
 import React from 'react';
 
 export default function HomeScreen() {
@@ -94,7 +94,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 50,
+    marginTop: StatusBar.currentHeight,
     backgroundColor: '#f0f0f0',
   },
   scrollEnd: {
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   centeredTitleContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 40,
+    marginTop: 55,
     marginBottom: 5,
     paddingHorizontal: 20,
   },
