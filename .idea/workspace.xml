@@ -4,18 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="582d0ce9-cab2-4bf9-95a8-c7471443bca3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/views/createUser.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/views/deleteUser.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/views/updateUser.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/views/viewUser.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(tabs)/account.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(tabs)/account.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/views/admin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/views/admin.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/views/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/views/login.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-    </list>
+    <list default="true" id="582d0ce9-cab2-4bf9-95a8-c7471443bca3" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -41,7 +30,7 @@
     "RunOnceActivity.cidr.known.project.marker": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "adminUserControl",
     "last_opened_file_path": "C:/Users/gordo/OneDrive/Documents/GitHub/CST438-Project2-App/app/(tabs)",
     "settings.editor.selected.configurable": "preferences.fileTypes"
   }
