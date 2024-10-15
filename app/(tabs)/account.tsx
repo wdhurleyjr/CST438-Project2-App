@@ -8,7 +8,10 @@ import React from 'react';
 import Login from '../src/views/login';
 import Signup from '../src/views/signup';
 import Admin from '../src/views/admin';
-
+import CreateUser from '../src/views/createUser';
+import ViewUser from '../src/views/viewUser';
+import UpdateUser from '../src/views/updateUser'
+import DeleteUser from '../src/views/deleteUser';
 const Stack = createStackNavigator();
 
 // Main component with navigation integrated
@@ -20,6 +23,10 @@ export default function AccountTab() {
         <Stack.Screen name="Login" component={Login} options={{ headerShown: true }} />
         <Stack.Screen name="Signup" component={Signup} options={{ headerShown: true, title: 'Sign Up' }} />
         <Stack.Screen name="Admin" component={Admin} />
+        <Stack.Screen name="CreateUser" component={CreateUser} />
+        <Stack.Screen name="ViewUser" component={ViewUser} />
+        <Stack.Screen name="UpdateUser" component={UpdateUser} />
+        <Stack.Screen name="DeleteUser" component={DeleteUser} />
       </Stack.Navigator>
     </NavigationContainer>
   );

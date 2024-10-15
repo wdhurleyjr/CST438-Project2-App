@@ -1,33 +1,65 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import Admin from '../src/views/admin';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 const Login = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const [isAdmin, setIsAdmin] = useState(false); // State to track if entered info matches admin credentials
+  const [isAdmin, setIsAdmin] = useState(false); // To track if the user has admin role
   const navigation = useNavigation();
 
-  // Placeholder admin credentials for testing purposes
-  const adminName = 'admin';
-  const adminPassword = 'admin123';
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('https://cst438-project2-f6f54a22acfa.herokuapp.com/api/auth/login', {
+        username: name,
+        password: password,
+      });
 
-  const handleLogin = () => {
-    // Check if the entered credentials match the placeholder admin credentials
-    if (name === adminName && password === adminPassword) {
-      setIsAdmin(true); // Enable the admin button
-    } else {
-      setIsAdmin(false); // Disable the admin button if credentials don't match
+      // Check if the login is successful and get the JWT token
+      if (response.status === 200 && response.data) {
+        const { token } = response.data; // JWT token
+        const userRoles = parseJwt(token).roles;
+
+        // Store the token for future API requests using AsyncStorage
+        await AsyncStorage.setItem('authToken', token);
+
+        // Check if the user has admin role
+        if (userRoles.includes('ROLE_ADMIN')) {
+          setIsAdmin(true);
+        } else {
+          setIsAdmin(false);
+        }
+
+        console.log('Login successful:', token);
+        Alert.alert('Login Successful', 'Welcome back!');
+      }
+    } catch (error) {
+      Alert.alert('Login Failed', 'Invalid username or password');
+      console.error('Login error:', error);
     }
-
-    console.log('Login attempted with:', { name, password });
-    // Navigate to userAcc or other screen based on successful login if needed
+  };
+  // Function to parse JWT and extract roles
+  const parseJwt = (token) => {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
+      );
+      return JSON.parse(jsonPayload);
+    } catch (error) {
+      return { roles: [] };
+    }
   };
 
   const handleAdminNavigation = () => {
-    navigation.navigate('Admin'); // Navigate to the Admin screen
+    navigation.navigate('Admin'); // Navigate to Admin screen
   };
 
   return (
@@ -51,7 +83,6 @@ const Login = () => {
         onChangeText={setPassword}
       />
 
-
       <Button title="Login" onPress={handleLogin} color="#6A5ACD" />
 
       <Text style={styles.signupText}>Don't have an account? Sign up</Text>
@@ -71,13 +102,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFF', // White background to match the mockups
+    backgroundColor: '#FFF',
   },
   header: {
     fontSize: 36,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#000', // Black text color for header
+    color: '#000',
   },
   input: {
     width: '80%',
@@ -86,25 +117,25 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#D3D3D3',
     borderRadius: 10,
-    backgroundColor: '#F8F8F8', // Light background color for input fields
+    backgroundColor: '#F8F8F8',
     fontSize: 16,
   },
   signupText: {
     marginTop: 20,
-    color: '#6A5ACD', // Link-like text color
+    color: '#6A5ACD',
   },
   adminButton: {
     position: 'absolute',
-    bottom: 30, // Positioning the button at the bottom right corner
+    bottom: 30,
     right: 30,
-    backgroundColor: '#6A5ACD', // Matching background color of Login screen
+    backgroundColor: '#6A5ACD',
     borderRadius: 50,
     padding: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5, // Android shadow
+    elevation: 5,
   },
 });
 
