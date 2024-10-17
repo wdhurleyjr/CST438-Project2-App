@@ -5,25 +5,24 @@ import { useNavigation } from '@react-navigation/native';
 const Admin = () => {
   const navigation = useNavigation();
 
-  // Placeholder functions for button actions
+  // Navigate to Create User screen
   const handleCreateUser = () => {
-    console.log('Create User button pressed');
-    // Implement the create user action here
+    navigation.navigate('CreateUser');
   };
 
+  // Navigate to View Users screen
   const handleViewUsers = () => {
-    console.log('View Users button pressed');
-    // Implement the view users action here
+    navigation.navigate('ViewUser');
   };
 
+  // Navigate to Update User screen
   const handleUpdateUser = () => {
-    console.log('Update User button pressed');
-    // Implement the update user action here
+    navigation.navigate('UpdateUser');
   };
 
+  // Navigate to Delete User screen
   const handleDeleteUser = () => {
-    console.log('Delete User button pressed');
-    // Implement the delete user action here
+    navigation.navigate('DeleteUser');
   };
 
   return (
