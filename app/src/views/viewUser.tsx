@@ -11,7 +11,7 @@ const ViewUser = () => {
     try {
       const token = await AsyncStorage.getItem('authToken'); // Retrieve the token
 
-      const response = await axios.get(`https://cst438-project2-f6f54a22acfa.herokuapp.com/api/users/${userId}`, {
+      const response = await axios.get(`https://cst438-project2-f6f54a22acfa.herokuapp.com/api/admin/${userId}/roles`, {
         headers: {
           Authorization: `Bearer ${token}`, // Include the token in the Authorization header
         },

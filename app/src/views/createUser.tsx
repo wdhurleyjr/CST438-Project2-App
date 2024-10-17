@@ -12,7 +12,7 @@ const CreateUser = () => {
     try {
       const token = await AsyncStorage.getItem('authToken'); // Retrieve the token
       const response = await axios.post(
-        'https://cst438-project2-f6f54a22acfa.herokuapp.com/api/users',
+        'https://cst438-project2-f6f54a22acfa.herokuapp.com/api/admin',
         { username, email, password, roles: ['ROLE_USER'] },
         {
           headers: {

@@ -13,7 +13,7 @@ const UpdateUser = () => {
       const token = await AsyncStorage.getItem('authToken'); // Retrieve the token
 
       const response = await axios.put(
-        `https://cst438-project2-f6f54a22acfa.herokuapp.com/api/users/${userId}`,
+        `https://cst438-project2-f6f54a22acfa.herokuapp.com/api/admin/${userId}`,
         {
           email,
           roles: roles.split(','), // Update roles
