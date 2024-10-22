@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Admin = () => {
   const navigation = useNavigation();
@@ -25,6 +26,18 @@ const Admin = () => {
     navigation.navigate('DeleteUser');
   };
 
+  // Logout function to clear token and navigate to Login
+  const handleLogout = async () => {
+    try {
+      await AsyncStorage.removeItem('authToken'); // Remove the token from AsyncStorage
+      Alert.alert('Logged Out', 'You have been successfully logged out.');
+      navigation.navigate('Login'); // Navigate to the Login screen
+    } catch (error) {
+      Alert.alert('Error', 'An error occurred during logout.');
+      console.error('Logout error:', error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Admin Controls</Text>
@@ -43,6 +56,10 @@ const Admin = () => {
 
       <TouchableOpacity style={[styles.button, styles.deleteButton]} onPress={handleDeleteUser}>
         <Text style={styles.buttonText}>Delete User</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={[styles.button, styles.logoutButton]} onPress={handleLogout}>
+        <Text style={styles.buttonText}>Logout</Text>
       </TouchableOpacity>
     </View>
   );
@@ -87,6 +104,9 @@ const styles = StyleSheet.create({
   },
   deleteButton: {
     backgroundColor: '#FF6347', // Red color for Delete button
+  },
+  logoutButton: {
+    backgroundColor: '#A9A9A9', // Grey color for Logout button
   },
 });
 
