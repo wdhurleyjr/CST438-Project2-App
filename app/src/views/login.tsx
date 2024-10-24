@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import TabLayout from '../../(tabs)/_layout';
 import axios from 'axios';
+
 
 const Login = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const [isAdmin, setIsAdmin] = useState(false); // To track if the user has admin role
   const navigation = useNavigation();
 
   const handleLogin = async () => {
@@ -21,45 +21,25 @@ const Login = () => {
       // Check if the login is successful and get the JWT token
       if (response.status === 200 && response.data) {
         const { token } = response.data; // JWT token
-        const userRoles = parseJwt(token).roles;
 
         // Store the token for future API requests using AsyncStorage
         await AsyncStorage.setItem('authToken', token);
 
-        // Check if the user has admin role
-        if (userRoles.includes('ROLE_ADMIN')) {
-          setIsAdmin(true);
-        } else {
-          setIsAdmin(false);
-        }
-
         console.log('Login successful:', token);
         Alert.alert('Login Successful', 'Welcome back!');
+
+        // Reset the navigation stack and navigate to TabLayout
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: '(tabs)' }],
+          })
+        );
       }
     } catch (error) {
       Alert.alert('Login Failed', 'Invalid username or password');
       console.error('Login error:', error);
     }
-  };
-  // Function to parse JWT and extract roles
-  const parseJwt = (token) => {
-    try {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(
-        atob(base64)
-          .split('')
-          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-          .join('')
-      );
-      return JSON.parse(jsonPayload);
-    } catch (error) {
-      return { roles: [] };
-    }
-  };
-
-  const handleAdminNavigation = () => {
-    navigation.navigate('Admin'); // Navigate to Admin screen
   };
 
   return (
@@ -84,14 +64,6 @@ const Login = () => {
       />
 
       <Button title="Login" onPress={handleLogin} color="#6A5ACD" />
-
-      <Text style={styles.signupText}>Don't have an account? Sign up</Text>
-
-      {isAdmin && (
-        <TouchableOpacity style={styles.adminButton} onPress={handleAdminNavigation}>
-          <Ionicons name="star" size={40} color="#FFD700" />
-        </TouchableOpacity>
-      )}
     </View>
   );
 };
@@ -123,19 +95,6 @@ const styles = StyleSheet.create({
   signupText: {
     marginTop: 20,
     color: '#6A5ACD',
-  },
-  adminButton: {
-    position: 'absolute',
-    bottom: 30,
-    right: 30,
-    backgroundColor: '#6A5ACD',
-    borderRadius: 50,
-    padding: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
   },
 });
 

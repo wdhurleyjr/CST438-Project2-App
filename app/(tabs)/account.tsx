@@ -1,65 +1,117 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, Platform, TouchableOpacity, View, Text, StatusBar } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Text, StatusBar, Alert } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
-import React from 'react';
-//DISCUSS HOME SCREEN HANDLING LATER
-//import Landing from '../src/views/landing';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useState, useEffect } from 'react';
 import Login from '../src/views/login';
-import Signup from '../src/views/signup';
 import Admin from '../src/views/admin';
 import CreateUser from '../src/views/createUser';
 import ViewUser from '../src/views/viewUser';
-import UpdateUser from '../src/views/updateUser'
+import UpdateUser from '../src/views/updateUser';
 import DeleteUser from '../src/views/deleteUser';
+import { CommonActions, useNavigation } from '@react-navigation/native'; // Import useNavigation
+
 const Stack = createStackNavigator();
 
-// Main component with navigation integrated
+// Main component without a NavigationContainer, as it's already provided in layout.tsx
 export default function AccountTab() {
   return (
-    <NavigationContainer independent={true}>
-      <Stack.Navigator initialRouteName="AccountOverview" screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="AccountOverview" component={AccountOverview} />
-        <Stack.Screen name="Login" component={Login} options={{ headerShown: true }} />
-        <Stack.Screen name="Signup" component={Signup} options={{ headerShown: true, title: 'Sign Up' }} />
-        <Stack.Screen name="Admin" component={Admin} />
-        <Stack.Screen name="CreateUser" component={CreateUser} />
-        <Stack.Screen name="ViewUser" component={ViewUser} />
-        <Stack.Screen name="UpdateUser" component={UpdateUser} />
-        <Stack.Screen name="DeleteUser" component={DeleteUser} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator initialRouteName="AccountOverview" screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="AccountOverview" component={AccountOverview} />
+      <Stack.Screen name="Admin" component={Admin} />
+      <Stack.Screen name="CreateUser" component={CreateUser} />
+      <Stack.Screen name="ViewUser" component={ViewUser} />
+      <Stack.Screen name="UpdateUser" component={UpdateUser} />
+      <Stack.Screen name="DeleteUser" component={DeleteUser} />
+    </Stack.Navigator>
   );
 }
 
-// Overview screen displaying only Login and Signup buttons
+// Overview screen displaying Logout and Admin Mode buttons
 function AccountOverview({ navigation }: any) {
+  const [isAdmin, setIsAdmin] = useState(false); // Manage admin state
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Manage login state
+  const rootNavigation = useNavigation(); // Use root navigation to reset the stack
+
+  // Check the token on component mount
+  useEffect(() => {
+    const checkUserRole = async () => {
+      const token = await AsyncStorage.getItem('authToken');
+      if (token) {
+        const parsedToken = parseJwt(token);
+        setIsAdmin(parsedToken.roles.includes('ROLE_ADMIN'));
+        setIsLoggedIn(true); // User is logged in
+      } else {
+        setIsLoggedIn(false);
+      }
+    };
+    checkUserRole();
+  }, []);
+
+  // Function to parse JWT
+  const parseJwt = (token: string) => {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
+      );
+      return JSON.parse(jsonPayload);
+    } catch (error) {
+      return { roles: [] };
+    }
+  };
+
+// Handle Logout
+const handleLogout = async () => {
+  await AsyncStorage.removeItem('authToken'); // Clear the token
+  setIsLoggedIn(false);
+
+  // Reset the navigation stack and go back to the Login or Home (layout.tsx)
+  rootNavigation.dispatch(
+    CommonActions.reset({
+      index: 0,
+      routes: [{ name: '(tabs)' }],
+  }));
+
+  Alert.alert('Logout Successful', 'You have been logged out.');
+};
+
+
+  // Handle Admin Mode Navigation
+  const handleAdminNavigation = () => {
+    if (isAdmin) {
+      navigation.navigate('Admin'); // Navigate to Admin screen
+    }
+  };
+
   return (
     <View style={styles.container}>
       {/* Center the Bestsellers title */}
       <View style={styles.centeredTitleContainer}>
-        <Text style={styles.logoTitle}>
-          Bestsellers
-        </Text>
+        <Text style={styles.logoTitle}>Bestsellers</Text>
       </View>
 
-      {/* Only include buttons for navigation */}
+      {/* Buttons for Logout and Admin */}
       <View style={styles.buttonContainer}>
-        {/* Sign Up Button */}
-        <TouchableOpacity
-          style={[styles.button, styles.signupButton]}
-          onPress={() => navigation.navigate('Signup')}
-        >
-          <Text style={styles.buttonText}>Sign up</Text>
-        </TouchableOpacity>
+        {/* Logout Button */}
+        {isLoggedIn && (
+          <TouchableOpacity style={[styles.button, styles.logoutButton]} onPress={handleLogout}>
+            <Text style={styles.buttonText}>Logout</Text>
+          </TouchableOpacity>
+        )}
 
-        {/* Login Button */}
-        <TouchableOpacity
-          style={[styles.button, styles.loginButton]}
-          onPress={() => navigation.navigate('Login')}
-        >
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
+        {/* Admin Mode Button (only visible for admins) */}
+        {isAdmin && (
+          <TouchableOpacity style={[styles.button, styles.adminButton]} onPress={handleAdminNavigation}>
+            <Ionicons name="shield-checkmark" size={28} color="#FFF" />
+            <Text style={styles.buttonText}>Admin Mode</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
@@ -74,12 +126,6 @@ const styles = StyleSheet.create({
     marginTop: StatusBar.currentHeight,
     justifyContent: 'center',
   },
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
-  },
   centeredTitleContainer: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -89,7 +135,7 @@ const styles = StyleSheet.create({
   logoTitle: {
     fontSize: 50,
     fontWeight: 'bold',
-    fontFamily: 'Judson-bold', // NEED TO FIX !!!
+    fontFamily: 'Judson-bold',
     color: '#000',
     lineHeight: 50,
   },
@@ -109,14 +155,18 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: 'auto',
   },
-  loginButton: {
-    backgroundColor: '#B3B3B3',
+  logoutButton: {
+    backgroundColor: '#FF6347',
   },
-  signupButton: {
-    backgroundColor: '#131313',
+  adminButton: {
+    backgroundColor: '#6A5ACD',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 15,
   },
   buttonText: {
     color: '#FFF',
     fontSize: 18,
+    marginLeft: 10, // Space for the icon in admin button
   },
 });
