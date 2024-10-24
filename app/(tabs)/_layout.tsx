@@ -1,11 +1,13 @@
 import { Tabs } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-
+import { createStackNavigator } from '@react-navigation/stack';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { View, Text, TouchableOpacity } from 'react-native';
+import Login from '../src/views/login';
+import Signup from '../src/views/signup';
+import { View, Text, TouchableOpacity, StatusBar, StyleSheet } from 'react-native';
 
 export default function TabLayout() {
   const [user, setUser] = useState(false);
@@ -19,8 +21,9 @@ export default function TabLayout() {
   });
 
   if(!user){
+    const Stack = createStackNavigator();
     return (
-      <Stack.Navigator initialRouteName="AccountOverview" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="Landing" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="Landing" component={Landing} />
@@ -77,8 +80,9 @@ export default function TabLayout() {
       </Tabs>
     );
   }
+}
 
-  function AccountOverview({ navigation }: any) {
+function Landing({ navigation }: any) {
     return (
       <View style={styles.container}>
         {/* Center the Bestsellers title */}
@@ -109,7 +113,6 @@ export default function TabLayout() {
       </View>
     );
   }
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -148,14 +151,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: 'auto',
   },
-  logoutButton: {
-    backgroundColor: '#FF6347',
+  loginButton: {
+    backgroundColor: '#B3B3B3',
   },
-  adminButton: {
-    backgroundColor: '#6A5ACD',
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 15,
+  signupButton: {
+    backgroundColor: '#131313',
   },
   buttonText: {
     color: '#FFF',
