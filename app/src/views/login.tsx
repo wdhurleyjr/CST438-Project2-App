@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TabLayout from '../../(tabs)/_layout';
 import axios from 'axios';
@@ -29,10 +29,12 @@ const Login = () => {
         Alert.alert('Login Successful', 'Welcome back!');
 
         // Reset the navigation stack and navigate to TabLayout
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'TabLayout' }],
-        });
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: '(tabs)' }],
+          })
+        );
       }
     } catch (error) {
       Alert.alert('Login Failed', 'Invalid username or password');
