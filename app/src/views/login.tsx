@@ -28,8 +28,11 @@ const Login = () => {
         console.log('Login successful:', token);
         Alert.alert('Login Successful', 'Welcome back!');
 
-        // Navigate to HomeScreen (index.tsx) for both admin and user after login
-        navigation.navigate('index');
+        // Reset the navigation stack and navigate to TabLayout
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'TabLayout' }],
+        });
       }
     } catch (error) {
       Alert.alert('Login Failed', 'Invalid username or password');
