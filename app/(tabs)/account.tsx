@@ -9,7 +9,7 @@ import CreateUser from '../src/views/createUser';
 import ViewUser from '../src/views/viewUser';
 import UpdateUser from '../src/views/updateUser';
 import DeleteUser from '../src/views/deleteUser';
-import { useNavigation } from '@react-navigation/native'; // Import useNavigation
+import { CommonActions, useNavigation } from '@react-navigation/native'; // Import useNavigation
 
 const Stack = createStackNavigator();
 
@@ -72,10 +72,11 @@ const handleLogout = async () => {
   setIsLoggedIn(false);
 
   // Reset the navigation stack and go back to the Login or Home (layout.tsx)
-  rootNavigation.reset({
-    index: 0,
-    routes: [{ name: '(tabs)' }], // Or route to another screen without the tabs
-  });
+  rootNavigation.dispatch(
+    CommonActions.reset({
+      index: 0,
+      routes: [{ name: '(tabs)' }],
+  }));
 
   Alert.alert('Logout Successful', 'You have been logged out.');
 };
