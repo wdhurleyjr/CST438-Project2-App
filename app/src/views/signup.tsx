@@ -61,7 +61,6 @@ const Signup = () => {
       />
 
       <Button title="Sign Up" onPress={handleSignup} color="#6A5ACD" />
-      <Text style={styles.loginText}>Already have an account? Login</Text>
     </View>
   );
 };
