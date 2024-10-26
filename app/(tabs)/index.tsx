@@ -1,9 +1,23 @@
-import { Image, StyleSheet, Platform, SafeAreaView, ScrollView, View, Text, StatusBar, Alert, FlatList } from 'react-native';
+import { Image, StyleSheet, Platform, SafeAreaView, ScrollView, View, Text, StatusBar, Alert, FlatList, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
 import axios from 'axios';
+import ViewBook from '../src/views/viewBook';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CommonActions, useNavigation } from '@react-navigation/native';
+
+const Stack = createStackNavigator();
 
 export default function HomeScreen() {
+  return (
+    <Stack.Navigator initialRouteName="Index" screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="ViewBook" component={ViewBook} options={{headerShown: true}} />
+      <Stack.Screen name="Index" component={Index} />
+    </Stack.Navigator>
+  );
+}
+
+function Index({ navigation }: any) {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
@@ -28,19 +42,19 @@ export default function HomeScreen() {
     }
   };
 
+
   const renderBookItem = ({ item }) => (
     // WHEN BOOK VIEW READY, MAKE TOUCHABLE
-    <View style={styles.cardBook}>
-          <View style={styles.cardBody}>
-            <Text style={styles.cardTitle}>{item.title}</Text>
-            <Text style={styles.cardText}>{item.author}</Text>
-          </View>
-          <Image style={styles.cardThumb} source={
-            {uri: item.imageUrl,}
-          } />
+    <TouchableOpacity style={styles.cardBook} onPress={() => navigation.navigate('ViewBook', {book: item})}>
+      <View style={styles.cardBody}>
+        <Text style={styles.cardTitle}>{item.title}</Text>
+        <Text style={styles.cardText}>{item.author}</Text>
       </View>
+      <Image style={styles.cardThumb} source={
+        {uri: item.imageUrl,}
+      } />
+    </TouchableOpacity>
   );
-
 
   return (
     <SafeAreaView style={styles.container}>
