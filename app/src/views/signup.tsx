@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons'; // Import Ionicons for back button
+import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 
 const Signup = () => {
@@ -11,7 +11,29 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
 
+  // Basic email validation regex
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleSignup = async () => {
+    // Input validation
+    if (!name || !email || !password) {
+      Alert.alert('Error', 'All fields are required.');
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      Alert.alert('Error', 'Please enter a valid email address.');
+      return;
+    }
+
+    if (password.length < 6) {
+      Alert.alert('Error', 'Password must be at least 6 characters long.');
+      return;
+    }
+
     try {
       const response = await axios.post(
         'https://cst438-project2-f6f54a22acfa.herokuapp.com/api/auth/register',
@@ -25,7 +47,7 @@ const Signup = () => {
 
       if (response.status === 200) {
         Alert.alert('Success', 'Account created successfully!');
-        navigation.navigate('Login'); // Navigate to the login screen
+        navigation.navigate('Login');
       } else {
         Alert.alert('Error', 'Failed to create account');
       }
@@ -40,7 +62,6 @@ const Signup = () => {
       colors={['#e0e0e0', '#b8b8b8', '#8e8e8e']}
       style={styles.container}
     >
-      {/* Back Button */}
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <Ionicons name="arrow-back" size={24} color="black" />
       </TouchableOpacity>
@@ -88,7 +109,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 16,
-    paddingTop: 40, // Add padding for the back button
+    paddingTop: 40,
   },
   backButton: {
     position: 'absolute',
@@ -101,12 +122,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     color: '#000',
-    textShadowColor: 'rgba(0, 0, 0, 0.3)', // Subtle shadow
+    textShadowColor: 'rgba(0, 0, 0, 0.3)',
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 6,
   },
   input: {
-    width: '100%', // Full width inside the container's padding
+    width: '100%',
     padding: 15,
     marginBottom: 15,
     borderWidth: 1,
@@ -116,7 +137,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   signupButton: {
-    width: '100%', // Full width inside the container
+    width: '100%',
     backgroundColor: '#000',
     paddingVertical: 15,
     borderRadius: 10,
@@ -128,11 +149,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-  loginText: {
-    marginTop: 20,
-    color: '#6A5ACD',
-  },
 });
 
 export default Signup;
+
 
