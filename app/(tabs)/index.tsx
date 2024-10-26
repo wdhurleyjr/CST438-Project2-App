@@ -1,10 +1,49 @@
-import { Image, StyleSheet, Platform, SafeAreaView, ScrollView, View, Text, StatusBar } from 'react-native';
-import React from 'react';
+import { Image, StyleSheet, Platform, SafeAreaView, ScrollView, View, Text, StatusBar, Alert, FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function HomeScreen() {
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    fetchBooks(); // Fetch users when the component mounts
+  }, []);
+
+  const fetchBooks = async () => {
+    try {
+      const token = await AsyncStorage.getItem('authToken');
+
+      const response = await axios.get('https://cst438-project2-f6f54a22acfa.herokuapp.com/api/books', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 200) {
+        setBooks(response.data.slice(0, 6));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const renderBookItem = ({ item }) => (
+    // WHEN BOOK VIEW READY, MAKE TOUCHABLE
+    <View style={styles.cardBook}>
+          <View style={styles.cardBody}>
+            <Text style={styles.cardTitle}>{item.title}</Text>
+            <Text style={styles.cardText}>{item.author}</Text>
+          </View>
+          <Image style={styles.cardThumb} source={
+            {uri: item.imageUrl,}
+          } />
+      </View>
+  );
+
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
       <View style={styles.centeredTitleContainer}>
         <Text style={styles.logoTitle}>
           Bestsellers
@@ -14,79 +53,16 @@ export default function HomeScreen() {
         </Text>
       </View>
       <View style={styles.listContainer}>
-        <Text style={styles.listTitle}>Fiction</Text>
-        <View style={styles.cardBook}>
-          <View style={styles.cardBody}>
-            <Text style={styles.cardTitle}>Book title</Text>
-            <Text style={styles.cardText}>Author | New this week</Text>
-          </View>
-          <Image style={styles.cardThumb} source={require('../../assets/images/partial-react-logo.png')} />
-        </View>
-        <View style={styles.cardBook}>
-          <View style={styles.cardBody}>
-            <Text style={styles.cardTitle}>Book title</Text>
-            <Text style={styles.cardText}>Author | New this week</Text>
-          </View>
-          <Image style={styles.cardThumb} source={require('../../assets/images/partial-react-logo.png')} />
-        </View>
-        <View style={styles.cardBook}>
-          <View style={styles.cardBody}>
-            <Text style={styles.cardTitle}>Book title</Text>
-            <Text style={styles.cardText}>Author | New this week</Text>
-          </View>
-          <Image style={styles.cardThumb} source={require('../../assets/images/partial-react-logo.png')} />
-        </View>
-      </View>
-      <View style={styles.listContainer}>
-        <Text style={styles.listTitle}>Nonfiction</Text>
-        <View style={styles.cardBook}>
-          <View style={styles.cardBody}>
-            <Text style={styles.cardTitle}>Book title</Text>
-            <Text style={styles.cardText}>Author | New this week</Text>
-          </View>
-          <Image style={styles.cardThumb} source={require('../../assets/images/partial-react-logo.png')} />
-        </View>
-        <View style={styles.cardBook}>
-          <View style={styles.cardBody}>
-            <Text style={styles.cardTitle}>Book title</Text>
-            <Text style={styles.cardText}>Author | New this week</Text>
-          </View>
-          <Image style={styles.cardThumb} source={require('../../assets/images/partial-react-logo.png')} />
-        </View>
-        <View style={styles.cardBook}>
-          <View style={styles.cardBody}>
-            <Text style={styles.cardTitle}>Book title</Text>
-            <Text style={styles.cardText}>Author | New this week</Text>
-          </View>
-          <Image style={styles.cardThumb} source={require('../../assets/images/partial-react-logo.png')} />
-        </View>
-      </View>
-      <View style={styles.listContainer}>
-        <Text style={styles.listTitle}>Cooking</Text>
-        <View style={styles.cardBook}>
-          <View style={styles.cardBody}>
-            <Text style={styles.cardTitle}>Book title</Text>
-            <Text style={styles.cardText}>Author | New this week</Text>
-          </View>
-          <Image style={styles.cardThumb} source={require('../../assets/images/partial-react-logo.png')} />
-        </View>
-        <View style={styles.cardBook}>
-          <View style={styles.cardBody}>
-            <Text style={styles.cardTitle}>Book title</Text>
-            <Text style={styles.cardText}>Author | New this week</Text>
-          </View>
-          <Image style={styles.cardThumb} source={require('../../assets/images/partial-react-logo.png')} />
-        </View>
-        <View style={styles.cardBook}>
-          <View style={styles.cardBody}>
-            <Text style={styles.cardTitle}>Book title</Text>
-            <Text style={styles.cardText}>Author | New this week</Text>
-          </View>
-          <Image style={styles.cardThumb} source={require('../../assets/images/partial-react-logo.png')} />
-        </View>
-      </View>
+        <Text style={styles.listTitle}>Top Bestsellers</Text>
+        <FlatList
+          data={books}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderBookItem}
+
+        />
+
       <View style={styles.scrollEnd}></View>
-    </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
