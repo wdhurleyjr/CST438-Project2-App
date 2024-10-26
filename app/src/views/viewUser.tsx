@@ -1,50 +1,54 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Button, Alert, StyleSheet, FlatList } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const ViewUser = () => {
-  const [userId, setUserId] = useState(''); // To store the user ID input
-  const [user, setUser] = useState(null);   // To store the fetched user data
+const ViewAllUsers = () => {
+  const [users, setUsers] = useState([]); // State to store all users
 
-  const handleViewUser = async () => {
+  useEffect(() => {
+    fetchAllUsers(); // Fetch users when the component mounts
+  }, []);
+
+  const fetchAllUsers = async () => {
     try {
       const token = await AsyncStorage.getItem('authToken'); // Retrieve the token
 
-      const response = await axios.get(`https://cst438-project2-f6f54a22acfa.herokuapp.com/api/admin/${userId}/roles`, {
+      const response = await axios.get('https://cst438-project2-f6f54a22acfa.herokuapp.com/api/admin', {
         headers: {
           Authorization: `Bearer ${token}`, // Include the token in the Authorization header
         },
       });
 
       if (response.status === 200) {
-        setUser(response.data); // Set the user data from the response
-        Alert.alert('Success', 'User data retrieved successfully');
+        setUsers(response.data); // Set the list of users from the response
+        Alert.alert('Success', 'All users retrieved successfully');
       }
     } catch (error) {
-      Alert.alert('Error', 'User not found or failed to fetch');
+      Alert.alert('Error', 'Failed to fetch users');
       console.error(error);
     }
   };
 
+  // Render each user item
+  const renderUserItem = ({ item }) => (
+    <View style={styles.userCard}>
+      <Text style={styles.userInfo}>Username: {item.username}</Text>
+      <Text style={styles.userInfo}>Email: {item.email}</Text>
+      <Text style={styles.userInfo}>Roles: {item.roles.join(', ')}</Text>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>View User</Text>
-      <TextInput
-        placeholder="User ID"
-        style={styles.input}
-        value={userId}
-        onChangeText={setUserId}
+      <Text style={styles.header}>All Users</Text>
+      <Button title="Refresh" onPress={fetchAllUsers} color="#4682B4" />
+      <FlatList
+        data={users}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderUserItem}
+        style={styles.userList}
       />
-      <Button title="View User" onPress={handleViewUser} color="#4682B4" />
-
-      {user && (
-        <View style={styles.userInfo}>
-          <Text>Username: {user.username}</Text>
-          <Text>Email: {user.email}</Text>
-          <Text>Roles: {user.roles.join(', ')}</Text>
-        </View>
-      )}
     </View>
   );
 };
@@ -54,22 +58,25 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     justifyContent: 'center',
+    backgroundColor: '#FFF',
   },
   header: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
   },
-  input: {
-    borderWidth: 1,
-    borderColor: '#DDD',
-    padding: 10,
-    marginBottom: 10,
-    borderRadius: 5,
+  userCard: {
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
   },
   userInfo: {
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  userList: {
     marginTop: 20,
   },
 });
 
-export default ViewUser;
+export default ViewAllUsers;
