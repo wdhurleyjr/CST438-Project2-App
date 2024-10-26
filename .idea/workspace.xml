@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="582d0ce9-cab2-4bf9-95a8-c7471443bca3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/views/updateUser.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/views/updateUser.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/views/deleteUser.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/views/deleteUser.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +33,7 @@
     "RunOnceActivity.cidr.known.project.marker": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "viewUserWorking",
+    "git-widget-placeholder": "updateUserWorking",
     "last_opened_file_path": "C:/Users/gordo/OneDrive/Documents/GitHub/CST438-Project2-App/app/(tabs)",
     "settings.editor.selected.configurable": "preferences.fileTypes"
   }
