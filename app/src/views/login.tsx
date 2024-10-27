@@ -24,6 +24,7 @@ const Login = () => {
         const { token } = response.data;
 
         await AsyncStorage.setItem('authToken', token);
+        console.log(token);
         Alert.alert('Login Successful', 'Welcome back!');
         setUsername(name);
 
