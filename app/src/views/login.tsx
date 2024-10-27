@@ -5,11 +5,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons'; // Import icon library
 import axios from 'axios';
+import { useUser } from '../context/UserContext';
 
 const Login = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
+  const { setUsername } = useUser();
 
   const handleLogin = async () => {
     try {
@@ -23,6 +25,7 @@ const Login = () => {
 
         await AsyncStorage.setItem('authToken', token);
         Alert.alert('Login Successful', 'Welcome back!');
+        setUsername(name);
 
         navigation.dispatch(
           CommonActions.reset({
