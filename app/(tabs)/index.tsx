@@ -45,7 +45,6 @@ function Index({ navigation }: any) {
 
 
   const renderBookItem = ({ item }) => (
-    // WHEN BOOK VIEW READY, MAKE TOUCHABLE
     <TouchableOpacity style={styles.cardBook} onPress={() => navigation.navigate('ViewBook', {book: item})}>
       <View style={styles.cardBody}>
         <Text style={styles.cardTitle}>{item.title}</Text>
