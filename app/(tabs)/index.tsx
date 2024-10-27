@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import axios from 'axios';
 import ViewBook from '../src/views/viewBook';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CommonActions, useNavigation } from '@react-navigation/native';
+import { useUser } from '../src/context/UserContext';
 
 const Stack = createStackNavigator();
 
@@ -19,9 +19,10 @@ export default function HomeScreen() {
 
 function Index({ navigation }: any) {
   const [books, setBooks] = useState([]);
+  const { username } = useUser();
 
   useEffect(() => {
-    fetchBooks(); // Fetch users when the component mounts
+    fetchBooks();
   }, []);
 
   const fetchBooks = async () => {
@@ -63,7 +64,7 @@ function Index({ navigation }: any) {
           Bestsellers
         </Text>
         <Text style={styles.welcomeTitle}>
-          Welcome, user!
+          Welcome, {username}!
         </Text>
       </View>
       <View style={styles.listContainer}>

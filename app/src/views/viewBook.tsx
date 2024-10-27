@@ -1,13 +1,71 @@
 import { Image, StyleSheet, Platform, SafeAreaView, ScrollView, View, Text, StatusBar, Alert, FlatList, TouchableOpacity, Button } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from 'expo-router';
+import { useFocusEffect, useNavigation } from 'expo-router';
 import { Linking } from 'react-native';
+import { useUser } from '../context/UserContext';
 
 export default function HomeScreen({route, navigation}) {
-
+  const { username } = useUser();
   const { book } = route.params;
+  const [inList, setInList] = useState(false);
+  
+  useFocusEffect(
+    useCallback(() => {
+      checkList();
+    }, [])
+  );
+
+    const checkList = async () => {
+        try {
+            const token = await AsyncStorage.getItem('authToken');
+            const response = await axios.get(`https://cst438-project2-f6f54a22acfa.herokuapp.com/api/users/`+username+`/wishlist`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (response.status === 200) {
+                setInList(response.data.some((item) => item.isbn === book.isbn));
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const addToList = async () => {
+        try {
+            const token = await AsyncStorage.getItem('authToken');
+            const response = await axios.post(`https://cst438-project2-f6f54a22acfa.herokuapp.com/api/users/${username}/wishlist/${book.id}`, {}, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (response.status === 200) {
+                setInList(true);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const removeFromList = async () => {
+        try {
+            const token = await AsyncStorage.getItem('authToken');
+            const response = await axios.delete(`https://cst438-project2-f6f54a22acfa.herokuapp.com/api/users/${username}/wishlist/${book.id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (response.status === 200) {
+                setInList(false);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+
     
   return (
     <SafeAreaView style={styles.flex}>
@@ -21,7 +79,11 @@ export default function HomeScreen({route, navigation}) {
     <Text style={styles.bookDesc}>{book.description}</Text>
   </View>
   <View style={styles.buttonContainer}>
-    <Button color='#222' title="Add to List" onPress={() => {}} />
+    {inList ? 
+    <Button color='#222' title="Remove from List" onPress={removeFromList} />
+         : 
+         <Button color='#222' title="Add to List" onPress={addToList} />
+    }
     <Button color='#222' title="Find on Amazon" onPress={() => Linking.openURL(`https://www.amazon.com/s?k=`+book.isbn)} />
   </View>
   </SafeAreaView>
