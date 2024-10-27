@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, Dimensions } from 'react-native';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import TabLayout from '../../(tabs)/_layout';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons'; // Import icon library
 import axios from 'axios';
-
 
 const Login = () => {
   const [name, setName] = useState('');
@@ -13,22 +13,17 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('https://cst438-project2-f6f54a22acfa.herokuapp.com/api/auth/login', {
-        username: name,
-        password: password,
-      });
+      const response = await axios.post(
+        'https://cst438-project2-f6f54a22acfa.herokuapp.com/api/auth/login',
+        { username: name, password: password }
+      );
 
-      // Check if the login is successful and get the JWT token
       if (response.status === 200 && response.data) {
-        const { token } = response.data; // JWT token
+        const { token } = response.data;
 
-        // Store the token for future API requests using AsyncStorage
         await AsyncStorage.setItem('authToken', token);
-
-        console.log('Login successful:', token);
         Alert.alert('Login Successful', 'Welcome back!');
 
-        // Reset the navigation stack and navigate to TabLayout
         navigation.dispatch(
           CommonActions.reset({
             index: 0,
@@ -43,7 +38,15 @@ const Login = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={['#e0e0e0', '#b8b8b8', '#8e8e8e']}
+      style={styles.container}
+    >
+      {/* Back Button */}
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+        <Ionicons name="arrow-back" size={24} color="black" />
+      </TouchableOpacity>
+
       <Text style={styles.header}>Login</Text>
 
       <TextInput
@@ -63,27 +66,40 @@ const Login = () => {
         onChangeText={setPassword}
       />
 
-      <Button title="Login" onPress={handleLogin} color="#6A5ACD" />
-    </View>
+      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+        <Text style={styles.loginButtonText}>Login</Text>
+      </TouchableOpacity>
+    </LinearGradient>
   );
 };
 
-// Styles for the Login screen
+const { width } = Dimensions.get('window'); // Get the screen width
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFF',
+    paddingHorizontal: 16,
+    paddingTop: 40, // Add padding for the back button
+  },
+  backButton: {
+    position: 'absolute', // Position the back button at the top left
+    top: 10,
+    left: 10,
+    padding: 10,
   },
   header: {
     fontSize: 36,
     fontWeight: 'bold',
     marginBottom: 20,
     color: '#000',
+    textShadowColor: 'rgba(0, 0, 0, 0.3)',
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 6,
   },
   input: {
-    width: '80%',
+    width: '100%',
     padding: 15,
     marginBottom: 15,
     borderWidth: 1,
@@ -92,9 +108,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F8F8',
     fontSize: 16,
   },
-  signupText: {
-    marginTop: 20,
-    color: '#6A5ACD',
+  loginButton: {
+    width: '100%',
+    backgroundColor: '#000',
+    paddingVertical: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  loginButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 
