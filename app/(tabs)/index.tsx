@@ -5,6 +5,7 @@ import axios from 'axios';
 import ViewBook from '../src/views/viewBook';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useUser } from '../src/context/UserContext';
+import { CommonActions } from '@react-navigation/native';
 
 const Stack = createStackNavigator();
 
@@ -23,8 +24,22 @@ function Index({ navigation }: any) {
 
   useEffect(() => {
     fetchBooks();
+    userCheck();
   }, []);
 
+  const userCheck = async () => {
+    // If the username is empty, reset the session
+    if (username === '') {
+      await AsyncStorage.removeItem('authToken'); // Clear the token
+
+    // Reset the navigation stack and go back to the Login or Home (layout.tsx)
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: '(tabs)' }],
+    }));
+    }
+  }
   const fetchBooks = async () => {
     try {
       const token = await AsyncStorage.getItem('authToken');
