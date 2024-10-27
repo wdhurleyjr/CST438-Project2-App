@@ -1,11 +1,12 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { StyleSheet, Image, Platform, View, Text, StatusBar, TouchableOpacity, SafeAreaView, FlatList } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import ViewBook from '../src/views/viewBook';
 import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useUser } from '../src/context/UserContext';
+import { useFocusEffect } from 'expo-router';
 
 const Stack = createStackNavigator();
 
@@ -22,22 +23,24 @@ function Wishlist({ navigation }: any) {
   const [books, setBooks] = useState([]);
   const { username } = useUser();
 
-  useEffect(() => {
-    fetchBooks();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchBooks();
+    }, [])
+  );
 
   const fetchBooks = async () => {
     try {
       const token = await AsyncStorage.getItem('authToken');
 
-      const response = await axios.get(`https://cst438-project2-f6f54a22acfa.herokuapp.com/api/users/`+username+`/wishlist`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      const response = await axios.get(`https://cst438-project2-f6f54a22acfa.herokuapp.com/api/users/${username}/wishlist`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       });
 
       if (response.status === 200) {
-        setBooks(response.data);
+      setBooks(response.data);
       }
     } catch (error) {
       console.error(error);

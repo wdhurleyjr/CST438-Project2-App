@@ -1,8 +1,8 @@
 import { Image, StyleSheet, Platform, SafeAreaView, ScrollView, View, Text, StatusBar, Alert, FlatList, TouchableOpacity, Button } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from 'expo-router';
+import { useFocusEffect, useNavigation } from 'expo-router';
 import { Linking } from 'react-native';
 import { useUser } from '../context/UserContext';
 
@@ -11,9 +11,11 @@ export default function HomeScreen({route, navigation}) {
   const { book } = route.params;
   const [inList, setInList] = useState(false);
   
-    useEffect(() => {
-        checkList();
-    }, []);
+  useFocusEffect(
+    useCallback(() => {
+      checkList();
+    }, [])
+  );
 
     const checkList = async () => {
         try {
