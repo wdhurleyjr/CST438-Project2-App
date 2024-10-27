@@ -140,8 +140,7 @@ const styles = StyleSheet.create({
     marginTop: 50, 
   },
   logoTitle: {
-    fontSize: 50,
-    fontWeight: 'bold',
+    fontSize: 60,
     fontFamily: 'Judson-bold',
     color: '#000', 
     textAlign: 'center',

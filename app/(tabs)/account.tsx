@@ -134,7 +134,6 @@ const styles = StyleSheet.create({
   },
   logoTitle: {
     fontSize: 50,
-    fontWeight: 'bold',
     fontFamily: 'Judson-bold',
     color: '#000',
     lineHeight: 50,

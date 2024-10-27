@@ -107,8 +107,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#222',
   },
   bookTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 34,
+    fontFamily: 'Judson-bold',
     marginBottom: 10,
   },
   bookSubtitle: {

@@ -113,9 +113,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   logoTitle: {
-    fontSize: 50,
-    fontWeight: 'bold',
-    fontFamily: 'Judson-bold', // NEED TO FIX !!!
+    fontSize: 60,
+    fontFamily: 'Judson-bold',
     color: '#000',
     lineHeight: 50,
     marginBottom: 5,
