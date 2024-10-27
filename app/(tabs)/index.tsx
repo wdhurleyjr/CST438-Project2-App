@@ -11,7 +11,7 @@ const Stack = createStackNavigator();
 export default function HomeScreen() {
   return (
     <Stack.Navigator initialRouteName="Index" screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="ViewBook" component={ViewBook} options={{headerShown: true}} />
+      <Stack.Screen name="ViewBook" component={ViewBook} options={{headerShown: true, title: 'Book Info',}} />
       <Stack.Screen name="Index" component={Index} />
     </Stack.Navigator>
   );
