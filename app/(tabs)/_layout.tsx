@@ -68,7 +68,7 @@ export default function TabLayout() {
         <Tabs.Screen
           name="lists"
           options={{
-            title: 'Lists',
+            title: 'Wishlist',
             tabBarIcon: ({ color, focused }) => (
               <MaterialIcons
                 name={focused ? 'bookmark' : 'bookmark-outline'}

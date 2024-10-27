@@ -4,10 +4,32 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from 'expo-router';
 import { Linking } from 'react-native';
+import { useUser } from '../context/UserContext';
 
 export default function HomeScreen({route, navigation}) {
-
+  const { username } = useUser();
   const { book } = route.params;
+  const [inList, setInList] = useState(false);
+  
+    useEffect(() => {
+        checkList();
+    }, []);
+
+    const checkList = async () => {
+        try {
+            const token = await AsyncStorage.getItem('authToken');
+            const response = await axios.get(`https://cst438-project2-f6f54a22acfa.herokuapp.com/api/users/`+username+`/wishlist`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (response.status === 200) {
+                setInList(response.data.some((item) => item.isbn === book.isbn));
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
     
   return (
     <SafeAreaView style={styles.flex}>
@@ -21,7 +43,11 @@ export default function HomeScreen({route, navigation}) {
     <Text style={styles.bookDesc}>{book.description}</Text>
   </View>
   <View style={styles.buttonContainer}>
-    <Button color='#222' title="Add to List" onPress={() => {}} />
+    {inList ? 
+    <Button color='#222' title="Remove from List" onPress={() => {}} />
+         : 
+         <Button color='#222' title="Add to List" onPress={() => {}} />
+    }
     <Button color='#222' title="Find on Amazon" onPress={() => Linking.openURL(`https://www.amazon.com/s?k=`+book.isbn)} />
   </View>
   </SafeAreaView>
